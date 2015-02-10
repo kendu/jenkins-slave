@@ -13,8 +13,10 @@ docker run \
     --name jenkins-slave \
     --restart always \
     -e JENKINS_AUTHORIZED_KEYS="<public key of the jenkins master>" \
+    -p <local port>:22 \
     kendu/jenkins-slave
 ```
+replace the <> fields acordingly.
 
 You can also set different username, password and working directory for
 jenkins. Defaults are:

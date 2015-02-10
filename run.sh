@@ -26,11 +26,14 @@ JENKINS_AUTHORIZED_KEYS=${JENKINS_AUTHORIZED_KEYS:-""}
 ##############################---FUNCTIONS---###################################
 
 function setupJenkins() {
-    useradd \
-        -h ${JENKINS_HOME} \
-        -m \
-        ${JENKINS_USERNAME}
-    echo "${JENKINS_USERNAME}:${JENKINS:PASSWORD}" | chpasswd
+    if [ -z "$(grep "${JENKINS_USERNAME}" /etc/passwd)" ]
+        then
+        useradd \
+            -d ${JENKINS_HOME} \
+            -m \
+            ${JENKINS_USERNAME}
+        echo "${JENKINS_USERNAME}:${JENKINS_PASSWORD}" | chpasswd
+    fi
 }
 
 
@@ -40,6 +43,8 @@ function safetyCheck() {
         JENKINS_HOME \
         JENKINS_USERNAME \
         JENKINS_AUTHORIZED_KEYS
+
+    mkdir -p /var/run/sshd
     sed -i "/PasswordAuthentication /aPasswordAuthentication no" \
         /etc/ssh/sshd_config
 }
@@ -49,7 +54,7 @@ function safetyCheck() {
 ###############################---EXECUTION---##################################
 
 setupJenkins
-cleanEnc
+safetyCheck
 
 /usr/sbin/sshd -D
 
