@@ -16,7 +16,8 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get -y install \
         openssh-server \
-        openjdk-7-jdk && \
+        openjdk-7-jdk \
+        git && \
     apt-get clean
 
 #Add startup script
