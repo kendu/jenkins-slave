@@ -7,7 +7,7 @@
 #  ~^~^~^~^~^~^~^~^~^~^~^~^~
 
 #The docker slave image
-FROM debian
+FROM debian:jessie
 MAINTAINER DevOps <devops@kendu.si>
 ENV DEBIAN_FRONTEND noninteractive
 
